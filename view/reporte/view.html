@@ -1,0 +1,65 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h3 mb-0 text-gray-800"> <i class="fa-solid fa-calendar-days"></i> Datos de Eventos</h1>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Asistencia</h5>
+            <p class="card-text" id="asis_nro"></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Invitados</h5>
+            <p class="card-text" id="inv_nro"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <!-- Content Row -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="font-weight-bold text-primary"> <i class="fa fa-list"></i> Detalles del Evento 
+                <a href="" id="excel" class="btn btn-sm btn-success float-right"> <i class="fas fa-file"></i> Descargar Excel</a>
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="detalle_evento" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Alumno</th>
+                            <th>Identificacion</th>
+                            <th>Titulo</th>
+                            <th>Evento</th>
+                            <th>Asist</th>
+                            <th>Cupo</th>
+                            <th>Aplico</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<script src="js/eventos.js"></script>
+<script type="text/javascript">
+    var text = window.location.hash;
+    var id = text.substring(1);
+    var url = 'back-end/info_excel.php?id='+id;
+    document.getElementById("excel").href = url;
+    detalles(id);
+    contadores(id);
+</script>

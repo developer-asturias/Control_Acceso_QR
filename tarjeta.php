@@ -1,0 +1,47 @@
+<?php
+error_reporting(0);
+session_start(); if($_SESSION['id_user'] != ''){ header('Location: main.php?inicio');}else{
+?>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Andres Camilo Rivera">
+    <title>IEP - Actas</title>
+    <link rel=icon href="img/logo1.png" sizes="40x40" type="image/png">
+    <!-- Custom fonts for this template-->
+    <link href="lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+        <link href="lib/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="layoutAuthentication" >
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center" >
+                            <div class="col-lg-8">
+                                <div class="card shadow-lg border-1 rounded-lg">
+                                    <div class="card-body" style="background-image: url(img/tarjeta.png); background-repeat: no-repeat; ">
+                                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>
+<?php } ?>

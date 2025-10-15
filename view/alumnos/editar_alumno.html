@@ -1,0 +1,63 @@
+<!-- Logout Modal-->
+<div class="modal fade " id="editar_alumno" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Editar Alumno</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="resulte"></div>
+            <form id="form_alumno">
+                <input type="hidden" id="id_alumno" class="form-control">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <strong>Identificacion</strong>
+                            <input type="text" id="codigo_e" class="form-control" placeholder="Identificacion del Alumno" autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <strong>Indice</strong>
+                            <input type="text" id="indice_e" class="form-control" placeholder="Indice del Alumno" autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <strong>Alumno</strong>
+                            <input type="text" id="nombre_e" class="form-control" placeholder="Nombre del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <strong>Titulo</strong>
+                            <input type="text" id="titulo_e" class="form-control" placeholder="Titulo del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <strong>Email</strong>
+                            <input type="email" id="email_e" class="form-control" placeholder="Email del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <strong>Cupo</strong>
+                            <input type="number" id="cupo_e" class="form-control" placeholder="Cupo del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</a>
+            <a href="#" onclick='actualizar()' class="btn btn-primary"><i class="fas fa-save"></i> Actualizar</a>
+        </div>
+    
+    </div>
+</div>
+</div>

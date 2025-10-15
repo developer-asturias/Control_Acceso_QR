@@ -1,0 +1,38 @@
+<!-- Logout Modal-->
+<script src="lib/js/html5-qrcode.min.js"></script>
+<div class="modal fade " id="leer_qr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Leer Codigo QR</h5>
+        </div>
+        <div class="modal-body">
+            <div id="result"></div>
+            <form id="form_leer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="width:auto;" id="reader"></div>
+                        
+                        <script type="text/javascript">
+                            function onScanSuccess(qrCodeMessage) {
+                                $('#qrcode').val(qrCodeMessage);
+                                $("#leer_qr").modal("hide");
+                            }
+                            function onScanError(errorMessage) {
+                              //handle scan error
+                            }
+                            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+                            html5QrcodeScanner.render(onScanSuccess, onScanError);
+                        </script>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</a>
+        </div>
+    
+    </div>
+</div>
+</div>

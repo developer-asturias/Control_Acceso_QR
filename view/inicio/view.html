@@ -1,0 +1,42 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h3 mb-0 text-gray-800"><i class="fa fa-qrcode"></i> Lectura de QR para invitados</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-edit"></i> Leer QR</h6>
+        </div>
+        <div class="card-body">
+            <div id="result"></div>
+            <form id="form-qr">
+                <div class="row">
+                    <div class="col-lg-4">
+                       <div class="form-group">
+                            <select id="evento" name="evento" class="form-control" required></select>
+                        </div>  
+                    </div>
+                    <div class="col-lg-3">
+                       <div class="form-group">
+                            <input type="text" id="qrcode" class="form-control" placeholder="Leer QR">
+                        </div>  
+                    </div>
+                    <div class="col-lg-5">
+                        <a href="#" onclick='leerqr()' class="btn btn-success"><i class="fa fa-qrcode"></i> Leer QR</a>
+                        <a href="#" onclick='confirmar()' class="btn btn-primary"><i class="fa fa-check"></i> Ingreso Invitado</a>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<script src="js/inicio.js"></script>
+<script type="text/javascript">
+    list_eventos()
+</script>

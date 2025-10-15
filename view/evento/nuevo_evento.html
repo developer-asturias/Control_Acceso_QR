@@ -1,0 +1,159 @@
+<!-- Logout Modal-->
+<div
+  class="modal fade"
+  id="nuevo_evento"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <i class="fas fa-edit"></i> Nuevo Evento
+        </h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">脳</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="result"></div>
+        <form id="form_evento">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Evento</strong>
+                <input
+                  type="text"
+                  id="nombre"
+                  class="form-control"
+                  placeholder="Nombre del Evento"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Lugar</strong>
+                <input
+                  type="text"
+                  id="lugar"
+                  class="form-control"
+                  placeholder="Lugar del Evento"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Direccion</strong>
+                <input
+                  type="text"
+                  id="direccion"
+                  class="form-control"
+                  placeholder="Direccion del Evento"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <strong>Fecha</strong>
+                <input
+                  type="date"
+                  id="fecha"
+                  class="form-control"
+                  placeholder="Fecha del Evento"
+                  min="<?php echo date('Y-m-d'); ?>"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <strong>Hora</strong>
+                <input
+                  type="time"
+                  id="hora"
+                  class="form-control"
+                  placeholder="Hora del Evento"
+                />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Link Facebook</strong>
+                <input
+                  type="text"
+                  id="link1"
+                  class="form-control"
+                  placeholder="Link Facebook"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Link Youtube</strong>
+                <input
+                  type="text"
+                  id="link2"
+                  class="form-control"
+                  placeholder="Link Youtube"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- // aqui va la integracion del campo institucion?? -->
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="institucion"><strong>Instituci贸n</strong></label>
+                <select
+                  id="institucion"
+                  name="institucion"
+                  class="form-control"
+                >
+                  <option value="">Seleccionar Instituci贸n</option>
+                  <option value="1">Asturias</option>
+                  <option value="2">Instituto Europeo de Posgrado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <strong>Archivo</strong>
+                <input
+                  type="file"
+                  id="archivo"
+                  class="form-control"
+                  placeholder="Archivo"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a
+          href="#"
+          class="btn btn-secondary"
+          type="button"
+          data-dismiss="modal"
+        >
+          <i class="fas fa-times"></i> Cerrar</a
+        >
+        <a href="#" onclick="registrar()" class="btn btn-primary">
+          <i class="fas fa-save"></i> Guardar</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

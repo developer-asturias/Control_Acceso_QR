@@ -1,0 +1,49 @@
+<!-- Logout Modal-->
+<div class="modal fade " id="confirma_ingreso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Confirma Ingreso</h5>
+        </div>
+        <div class="modal-body">
+            <div id="result"></div>
+            <form id="form_confirma">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <strong>Indice</strong>
+                            <input type="text" id="indice" class="form-control" readonly placeholder="Indice del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <strong>Alumno</strong>
+                            <input type="text" id="nombre" class="form-control" readonly placeholder="Nombre del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <strong>Titulo</strong>
+                            <input type="text" id="titulo" class="form-control" readonly placeholder="Titulo del Alumno" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <strong>Resultado</strong>
+                            <div id="resultado"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" id='botonc' onclick='cerrar()' class="btn btn-secondary" type="button">
+                <i class="fas fa-times"></i> Cerrar</a>
+            <a id='boton' href="#" onclick='registrar()' class="btn btn-primary">
+                <i class="fas fa-save"></i> Confirmar</a>
+        </div>
+    
+    </div>
+</div>
+</div>

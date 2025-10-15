@@ -1,0 +1,39 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h3 mb-0 text-gray-800"> <i class="fa-solid fa-users"></i> Datos de Alumnos</h1>
+    </div>
+
+    <!-- Content Row <a href="#" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#nuevo_alumno"> <i class="fas fa-plus"></i> Nuevo Alumno</a>-->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="font-weight-bold text-primary"> <i class="fa fa-list"></i> Listado de Alumnos
+                
+                <a href="?cargar_file" class="btn btn-sm btn-primary float-right"> <i class="fas fa-plus"></i> Cargar Archivo</a>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="lista_eventos" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Alumno</th>
+                            <th>Indice</th>
+                            <th>Titulo</th>
+                            <th>Email</th>
+                            <th>Evento</th>
+                            <th>Cupo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<script src="js/alumnos.js"></script>
