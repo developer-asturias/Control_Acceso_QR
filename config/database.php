@@ -1,9 +1,9 @@
 <?php
 
-$server   = "localhost";
-$username = "solicitu_usuario";
-$password = "30D&#Wd]YN*F";
-$database = "solicitu_control_acceso";
+$server   = "redsummacloud.com";
+$username = "redsummacloud_control";
+$password = "j:6+v)HrY9}?#kZ";
+$database = "redsummacloud_controlacceso";
 
 
 $mysqli = new mysqli($server, $username, $password, $database);

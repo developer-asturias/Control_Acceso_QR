@@ -16,6 +16,7 @@ function dataTable() {
   let p = "ALL";
   $.ajax({
     url: "back-end/eventos.php",
+    // url: "./control_acceso_qr/back-end/eventos.php",
     type: "GET",
     data: { p },
     success: function (response) {
