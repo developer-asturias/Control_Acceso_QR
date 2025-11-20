@@ -167,7 +167,7 @@ function enviar($email,$nombre,$indice,$evento,$lugar,$fecha,$hora,$direccion){
             <tr>
                 <td align="center" height="70" style="height:70px;">
                     <a href="" style="display: block; border-style: none !important; border: 0 !important;">
-                        <img width="100" border="0" style="display: block; width: 380px;" src="https://controlacceso.systemsolutions.com.co/img/Logo-largo-blanco.png" alt="" />
+                        <img width="100" border="0" style="display: block; width: 380px;" src="https://controlacceso.redsummacloud.com/img/Logo-largo-blanco.png" alt="" />
                     </a>
                 </td>
             </tr>
@@ -225,7 +225,7 @@ function enviar($email,$nombre,$indice,$evento,$lugar,$fecha,$hora,$direccion){
                                                 
                                                 La Corporación Universitaria de Asturias se complace en invitarlos a la ceremonia de grado. <br>
                                                 <b>Fecha:</b> '.$fecha.' <br> <b>Hora:</b> '.$hora.' <br> <b>Lugar:</b> '.$lugar.'  <br> <b>Dirección:</b> '.$direccion.' <BR>
-                                                <img width="100" border="0" style="display: block; width: 300px;" src="https://controlacceso.systemsolutions.com.co/Archivos/'.$indice.'.png" alt="" />
+                                                <img width="100" border="0" style="display: block; width: 300px;" src="https://controlacceso.redsummacloud.com/Archivos/'.$indice.'.png" alt="" />
                                             </div>
                                         </td>
                                     </tr>

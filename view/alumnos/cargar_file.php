@@ -42,22 +42,59 @@
     </div>
     <?php 
         if(isset($_POST['submit'])){
+            error_log('cargar_file.php: Inicio procesamiento submit');
             include('config/database.php');
             include('back-end/phpqrcode/qrlib.php');
             include('enviar_email.php');
             $dir_subida = 'Archivos/';
             $fichero_subido = $dir_subida . basename($_FILES['fichero_usuario']['name']);
-            move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido);
+            error_log('cargar_file.php: Archivo recibido - nombre=' . (isset($_FILES['fichero_usuario']['name']) ? $_FILES['fichero_usuario']['name'] : 'NO DEFINIDO'));
+            if (!move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido)) {
+                error_log('cargar_file.php: ERROR al mover el archivo subido a ' . $fichero_subido);
+            } else {
+                error_log('cargar_file.php: Archivo movido correctamente a ' . $fichero_subido);
+            }
+            if (!file_exists('lib/PHPExcel/Classes/PHPExcel.php')) {
+                error_log('cargar_file.php: ERROR - No se encuentra lib/PHPExcel/Classes/PHPExcel.php desde main.php');
+                die('No se encuentra la libreria PHPExcel (ruta lib/PHPExcel/Classes/PHPExcel.php).');
+            }
+            error_log('cargar_file.php: PHPExcel.php encontrado, incluyendo libreria');
             require_once 'lib/PHPExcel/Classes/PHPExcel.php';
+            if (!class_exists('PHPExcel_IOFactory')) {
+                error_log('cargar_file.php: ERROR - Clase PHPExcel_IOFactory no existe despues del require');
+                die('Error al cargar PHPExcel_IOFactory.');
+            }
             $archivo = $fichero_subido;
-            $inputFileType = PHPExcel_IOFactory::identify($archivo);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objReader->load($archivo);
+            error_log('cargar_file.php: Ruta de archivo Excel=' . $archivo);
+
+
+            // $inputFileType = PHPExcel_IOFactory::identify($archivo);
+            // error_log('cargar_file.php: Tipo de archivo Excel detectado=' . $inputFileType);
+
+
+            try {
+                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+                error_log('cargar_file.php: Reader Excel2007 creado');
+                $objPHPExcel = $objReader->load($archivo);
+                error_log('cargar_file.php: Archivo Excel cargado correctamente');
+            } catch (Exception $e) {
+                error_log('cargar_file.php: ERROR cargando Excel: ' . $e->getMessage());
+                die('Error leyendo el archivo de Excel: ' . $e->getMessage());
+            }
+
+
             $sheet = $objPHPExcel->getSheet(0); 
             $highestRow = $sheet->getHighestRow(); 
             $highestColumn = $sheet->getHighestColumn();
+
+
+            error_log('cargar_file.php: highestRow=' . $highestRow . ' highestColumn=' . $highestColumn);
             $id_evento = $_POST['evento'];
+            error_log('cargar_file.php: id_evento recibido=' . $id_evento);
             $query = mysqli_query($mysqli, "SELECT evento, lugar, direccion, hora, DATE_FORMAT(fecha,'%M') mes ,DATE_FORMAT(fecha,'%e') dia,DATE_FORMAT(fecha,'%Y') anno FROM eventos WHERE id_evento='$id_evento'");
+            if (!$query) {
+                error_log('cargar_file.php: ERROR en consulta eventos: ' . mysqli_error($mysqli));
+            }
             $row = mysqli_fetch_array($query);
             $dia = $row['dia']; $mes =$row['mes']; $anno = $row['anno'];
             $fecha = $dia.' de '.$mes.' del '.$anno;
@@ -67,7 +104,9 @@
             $evento = $row['evento'];
             $archivo = $row['archivo']; 
             $cupo = $_POST['cupo'];
+            error_log('cargar_file.php: cupo recibido=' . $cupo);
     ?>
+
 
     
 
@@ -112,6 +151,7 @@
                     <tbody>
                     <?php
                         $num = 1;
+                        error_log('cargar_file.php: Inicio del bucle de filas, highestRow=' . $highestRow);
                         for ($row = 2; $row <= $highestRow; $row++) {
                             $codigo = $sheet->getCell("A" . $row)->getValue();
                             $nombre = $sheet->getCell("B" . $row)->getValue();
@@ -119,13 +159,22 @@
                             $titulo = $sheet->getCell("D" . $row)->getValue();
                             $email = $sheet->getCell("E" . $row)->getValue();
                             $asiento = $sheet->getCell("F" . $row)->getValue();
+                            error_log('cargar_file.php: Fila ' . $row . ' -> codigo=' . $codigo . ' indice=' . $indice . ' email=' . $email);
                             // $result = mysqli_query($mysqli, "SELECT * FROM alumnos WHERE indice='$indice' AND identificacion='$codigo'");
                             $result = mysqli_query($mysqli, "SELECT * FROM alumnos WHERE indice='$indice' AND identificacion='$codigo' AND id_evento='$id_evento'");
+                            if (!$result) {
+                                error_log('cargar_file.php: ERROR en SELECT alumnos fila ' . $row . ': ' . mysqli_error($mysqli));
+                            }
                             $num_rows = mysqli_num_rows($result);
 
                             // Manejar excepciones de duplicaci贸n de alumnos
                             if ($num_rows == 0) {
                                 $query = mysqli_query($mysqli, "INSERT INTO alumnos VALUES (NULL, '$codigo', '$nombre', '$indice', '$titulo', '$email', '$asiento', '$id_evento', '$cupo', 0)") or die('Error en el registro' . mysqli_error($mysqli));
+                                if (!$query) {
+                                    error_log('cargar_file.php: ERROR en INSERT alumnos fila ' . $row . ': ' . mysqli_error($mysqli));
+                                } else {
+                                    error_log('cargar_file.php: INSERT alumnos OK fila ' . $row . ' codigo=' . $codigo . ' indice=' . $indice);
+                                }
                                 $codesDir = "Archivos/";
                                 $codeFile = $indice . '.png';
                                 QRcode::png($indice, $codesDir . $codeFile, 'L', 10);
