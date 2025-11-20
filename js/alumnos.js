@@ -2,6 +2,9 @@ function consultar(){
 	$(document).ready(function(){
 	    if ( $.fn.dataTable.isDataTable( '#lista_eventos' ) ) {
 	        table = $('#lista_eventos').DataTable();
+
+            console.log('Respuesta alumnos (lista):', response);
+
 	        table.destroy();
 	        dataTable();
 	    }else{
@@ -16,26 +19,34 @@ function dataTable(){
     $.ajax({
         url: 'back-end/alumnos.php',
         type: 'GET',
-        data: {p},
-        success: function(response){
-            let o = JSON.parse(response);
-            $('#lista_eventos').dataTable( {
-                retrieve: true,
-                data : o,
-                columns: [
-                    {"data" : "alumno"}, 
-                    {"data" : "indice"},
-                    {"data" : "titulo"},
-                    {"data" : "email"},
-                    {"data" : "evento"},
-                    {"data" : "cupo"},
-                    {"data" : "btn"}
-                            
-                ]
-            });
-        
-        }
-    })
+	    data: { p: p },
+	    dataType: 'json',
+	    success: function(response){
+
+
+	        console.log('Respuesta alumnos (lista):', response);
+
+	        if (response && response.error) {
+	            console.error('Error alumnos:', response.error);
+	            return;
+	        }
+
+	        var o = response;
+	        $('#lista_eventos').DataTable({
+	            retrieve: true,
+	            data : o,
+	            columns: [
+	                {"data" : "alumno"}, 
+	                {"data" : "indice"},
+	                {"data" : "titulo"},
+	                {"data" : "email"},
+	                {"data" : "evento"},
+	                {"data" : "cupo"},
+	                {"data" : "btn"}
+	            ]
+	        }); 
+	    }
+    })  
 }
 
 //Registrar evento
@@ -43,7 +54,8 @@ function registrar(){
 	let cod = $('#codigo').val(), indice =$('#indice').val(), error='';
     let nom =$('#nombre').val(), titulo =$('#titulo').val(), email =$('#email').val(), evento =$('#evento').val();
 
-    if(cod =='' || c_exp =='' || indice =='' || nom =='' || titulo =='' || email =='' || evento ==''){error+='error';} 
+    if(cod =='' || indice =='' || nom =='' || titulo =='' || email =='' || evento ==''){error+='error';} 
+
     let template='';
     if(error!=''){
         template +=`
@@ -62,12 +74,34 @@ function registrar(){
             id_evento: evento
         };
         
-        $.post('back-end/alumnos.php', postData, function(response){
-            consultar();
-            $('#form_alumno').trigger('reset');
-            //console.log(response)
-            $('#result').html(response);
-            setTimeout(function(){ $('#alerta_add').alert('close'); $("#nuevo_alumno").modal("hide");}, 2000);
+        $.ajax({
+            url: 'back-end/alumnos.php',
+            type: 'POST',
+            data: postData,
+            dataType: 'json',
+            success: function(response){
+                console.log('Respuesta registrar alumno:', response);
+                let templateRes = '';
+                if (response.error) {
+                    templateRes +=`
+                    <div class="alert alert-danger" role="alert" id="alerta_add">
+                        <strong>Error!</strong> ${response.error}
+                    </div>`;
+                } else if (response.success) {
+                    templateRes +=`
+                    <div class="alert alert-success" role="alert" id="alerta_add">
+                        ${response.message}
+                    </div>`;
+                    consultar();
+                    $('#form_alumno').trigger('reset');
+                }
+                $('#result').html(templateRes);
+                setTimeout(function(){ $('#alerta_add').alert('close'); $("#nuevo_alumno").modal("hide");}, 2000);
+            },
+            error: function(xhr, status, error){
+                console.error('Error AJAX registrar alumno:', status, error);
+                console.error('Respuesta servidor:', xhr.responseText);
+            }
         });  
     }
 }
@@ -78,9 +112,11 @@ function list_eventos(){
         url: 'back-end/eventos.php',
         type: 'GET',
         data: {list},
-        success: function(response){
-            let datas = JSON.parse(response);
-            //console.log(datas);
+	    dataType: 'json',
+	    success: function(response){
+	        let datas = response;
+	        //console.log(datas);
+
             let template = '<option value="">Seleccione Opcion......</option>';
             datas.forEach(data =>{
                 template +=`
@@ -100,16 +136,21 @@ function buscar(id){
         url: 'back-end/alumnos.php',
         type: 'GET',
         data: {id_alumno},
-        success: function(response){
-            let datas = JSON.parse(response);
-            console.log(datas.alumno);
-            $('#nombre_e').val(datas.alumno);
-            $('#codigo_e').val(datas.codigo);
-            $('#indice_e').val(datas.indice);
-            $('#titulo_e').val(datas.titulo);
-            $('#email_e').val(datas.email);
-            $('#cupo_e').val(datas.cupo);
-            
+	    dataType: 'json',
+	    success: function(response){
+	        if (response.error) {
+	            console.error('Error obtener alumno:', response.error);
+	            return;
+	        }
+	        let datas = response;
+	        console.log(datas.alumno);
+	        $('#nombre_e').val(datas.alumno);
+	        $('#codigo_e').val(datas.codigo);
+	        $('#indice_e').val(datas.indice);
+	        $('#titulo_e').val(datas.titulo);
+	        $('#email_e').val(datas.email);
+	        $('#cupo_e').val(datas.cupo);
+
             $('#editar_alumno').modal("show");
         }
     })
@@ -133,20 +174,41 @@ function actualizar(){
         const postData = {
             id_alumno: id_alumno,
             nombre: nom,
-            codigo_e: cod,
-            ciudad_exp: c_exp,
+            // codigo_e y ciudad_exp ya no los usa el backend JSON
             indice: indice,
             titulo: titulo,
             email: email,
             cupo: cupo
         };
         
-        $.post('back-end/alumnos.php', postData, function(response){
-            consultar();
-            $('#form_alumno').trigger('reset');
-            //console.log(response)
-            $('#resulte').html(response);
-            setTimeout(function(){ $('#alerta_add').alert('close'); $("#editar_alumno").modal("hide");}, 2000);
+        $.ajax({
+            url: 'back-end/alumnos.php',
+            type: 'POST',
+            data: postData,
+            dataType: 'json',
+            success: function(response){
+                console.log('Respuesta actualizar alumno:', response);
+                let templateRes = '';
+                if (response.error) {
+                    templateRes +=`
+                    <div class="alert alert-danger" role="alert" id="alerta_add">
+                        <strong>Error!</strong> ${response.error}
+                    </div>`;
+                } else if (response.success) {
+                    templateRes +=`
+                    <div class="alert alert-success" role="alert" id="alerta_add">
+                        ${response.message}
+                    </div>`;
+                    consultar();
+                    $('#form_alumno').trigger('reset');
+                }
+                $('#resulte').html(templateRes);
+                setTimeout(function(){ $('#alerta_add').alert('close'); $("#editar_alumno").modal("hide");}, 2000);
+            },
+            error: function(xhr, status, error){
+                console.error('Error AJAX actualizar alumno:', status, error);
+                console.error('Respuesta servidor:', xhr.responseText);
+            }
         });  
     }
 }

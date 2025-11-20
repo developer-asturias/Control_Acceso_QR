@@ -282,13 +282,13 @@ function enviar($email,$nombre,$indice,$evento,$lugar,$fecha,$hora,$direccion){
     $mail->isSMTP();
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = 'tls';
-    $mail->Host = "smtp.gmail.com";
+    $mail->Host = "smtp-mail.outlook.com";
     $mail->Port = 587;
-    $mail->Username = "accesoasturias@gmail.com";
-    $mail->Password = "uycexpxbvcaoxlvb";
+    $mail->Username = "no-reply@controlacceso.redsummacloud.com";
+    $mail->Password = "XkkFXqr!ENJ,LRa#";
     
-    $mail->setFrom("servicioalestudiante@asturias.edu.co", "Ceremonia de Graduación Asturias");
-    $mail->AddReplyTo('servicioalestudiante@asturias.edu.co','Ceremonia de Graduación Asturias');
+    $mail->setFrom("no-reply@controlacceso.redsummacloud.com", "Ceremonia de Graduación Asturias");
+    $mail->AddReplyTo('no-reply@controlacceso.redsummacloud.com','Ceremonia de Graduación Asturias');
     
     $mail->addAddress($email,$nombre);
     $mail->addCC('accesoasturias@gmail.com');

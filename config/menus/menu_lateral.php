@@ -1,6 +1,9 @@
 <?php 
 $ruta=explode("?",$_SERVER['REQUEST_URI']);
 $m=$ruta[1];
+
+// Inicializar todas las variables de menú
+$i = $e = $a = $aa = '';
 //Inicio
 if($m=='inicio'){$i='active';}
 elseif($m=='eventos'){$e='active';}

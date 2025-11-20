@@ -1,0 +1,99 @@
+[2025-11-20 14:53:06] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 14:53:10] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:01:37] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:01:46] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:01:58] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:02:01] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:02:38] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:03:38] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:39:03] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:39:04] alumnos.php - GET list: 568 registros
+[2025-11-20 15:39:10] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:39:11] alumnos.php - GET list: 568 registros
+[2025-11-20 15:39:34] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:39:35] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:03] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:04] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:04] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:44:12] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:44:12] alumnos.php - GET list: 568 registros
+[2025-11-20 15:45:42] alumnos.php - Metodo: GET - Params: {"id_alumno":"1"}
+[2025-11-20 15:45:47] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:45:48] alumnos.php - GET list: 568 registros
+[2025-11-20 15:47:51] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:51] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"10","pretty":"1"}
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:47:55] alumnos.php - GET list: 10 registros
+[2025-11-20 15:48:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:04] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:04] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:05] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:05] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:10] alumnos.php - Metodo: GET - Params: {"p":"ALL","limit":"5').then(r=>r.text()).then(t=>console.log(t.length"}
+[2025-11-20 15:48:11] alumnos.php - GET list: 568 registros
+[2025-11-20 15:48:27] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:27] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 15:48:27] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 16:11:08] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 16:13:50] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 16:14:23] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 16:14:50] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:15:17] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:16:33] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:17:21] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:17:21] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:17:21] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:17:22] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:17:26] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:18:00] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:18:01] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:18:01] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:18:13] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:18:22] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:20:44] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:20:44] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:20:55] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:21:23] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 16:42:05] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:42:05] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:42:05] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:42:05] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:42:05] alumnos.php - Metodo: GET - Params: []
+[2025-11-20 16:43:40] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:19:06] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:23:16] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:23:20] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:25:19] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:25:23] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:25:34] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:27:40] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:27:44] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:29:45] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:53:12] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:53:33] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:53:37] alumnos.php - Metodo: GET - Params: {"p":"ALL"}
+[2025-11-20 18:54:00] alumnos.php - Metodo: GET - Params: {"p":"ALL"}

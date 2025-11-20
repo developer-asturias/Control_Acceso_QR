@@ -13,35 +13,55 @@ function consultar() {
 
 //Consultar all
 function dataTable() {
-  let p = "ALL";
-  $.ajax({
-    url: "back-end/eventos.php",
-    // url: "./control_acceso_qr/back-end/eventos.php",
-    type: "GET",
-    data: { p },
-    success: function (response) {
-      let o = JSON.parse(response);
-       if (response.error) { // Cambio aqu赤
-        console.error(response.error); // Cambio aqu赤
-        return;
-      }
-      $("#lista_eventos").dataTable({
-        retrieve: true,
-        data: o,
-        columns: [
-          { data: "evento" },
-          { data: "lugar" },
-          { data: "direccion" },
-          { data: "fecha" },
-          { data: "estado" },
-          { data: "institucion" },
-          { data: "btn" },
-        ],
-      });
-    },
-  });
-}
+    let p = "ALL";
+    $.ajax({
+        url: "back-end/eventos.php",
+        type: "GET",
+        data: { p: p },  // Corregido: enviar como objeto con clave-valor
+        dataType: 'json',  // Especificamos que esperamos JSON
+        success: function(response) {
+            console.log('Respuesta del servidor:', response);
+            
+            // Verificamos si hay un error en la respuesta
+            if (response && response.error) {
+                console.error('Error del servidor:', response.error);
+                return;
+            }
+            
+            // Verificamos que la respuesta sea un array
+            if (!Array.isArray(response)) {
+                console.error('La respuesta no es un array válido:', response);
+                return;
+            }
 
+            // Si ya existe una instancia de DataTable, la destruimos
+            if ($.fn.DataTable.isDataTable("#lista_eventos")) {
+                $("#lista_eventos").DataTable().destroy();
+            }
+
+            // Inicializamos la tabla con los datos
+            $("#lista_eventos").DataTable({
+                data: response,
+                columns: [
+                    { data: "evento" },
+                    { data: "lugar" },
+                    { data: "direccion" },
+                    { data: "fecha" },
+                    { data: "estado" },
+                    { data: "institucion" },
+                    { data: "btn" }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la petición AJAX:', status, error);
+            console.error('Respuesta del servidor:', xhr.responseText);
+        }
+    });
+}
 //Registrar evento
 function registrar() {
   let nom = $("#nombre").val(),
