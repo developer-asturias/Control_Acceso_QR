@@ -119,21 +119,33 @@ function cerrar(){
 }
 
 function list_eventos(){
-    let list = 0;
     $.ajax({
         url: 'back-end/eventos.php',
         type: 'GET',
-        data: {list},
+        data: {list: 1},
+        dataType: 'json',
         success: function(response){
-            let datas = JSON.parse(response);
-            //console.log(datas);
+            console.log('Respuesta eventos:', response);
+            
+            if (response && response.error) {
+                console.error('Error eventos:', response.error);
+                return;
+            }
+
+            if (!Array.isArray(response)) {
+                console.error('Respuesta no es un array:', response);
+                return;
+            }
+
             let template = '<option value="">Seleccione Evento......</option>';
-            datas.forEach(data =>{
-                template +=`
-                <option value="${data.id}">${data.evento}</option>
-                `
+            response.forEach(data => {
+                template += `<option value="${data.id}">${data.evento}</option>`;
             });
             $('#evento').html(template);
+        },
+        error: function(xhr, status, error){
+            console.error('Error AJAX list_eventos:', status, error);
+            console.error('Respuesta servidor:', xhr.responseText);
         }
     })
 }

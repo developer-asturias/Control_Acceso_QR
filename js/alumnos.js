@@ -1,29 +1,22 @@
 function consultar(){
-	$(document).ready(function(){
-	    if ( $.fn.dataTable.isDataTable( '#lista_eventos' ) ) {
-	        table = $('#lista_eventos').DataTable();
-
-            console.log('Respuesta alumnos (lista):', response);
-
-	        table.destroy();
-	        dataTable();
-	    }else{
-	        dataTable();
-	    }
-	})
+    if ( $.fn.dataTable.isDataTable( '#lista_eventos' ) ) {
+        table = $('#lista_eventos').DataTable();
+        table.destroy();
+    }
+    dataTable();
 }
-consultar();
+
+$(document).ready(function(){
+    consultar();
+});
 //Consultar all
 function dataTable(){
-	let p = 'ALL';
     $.ajax({
         url: 'back-end/alumnos.php',
         type: 'GET',
-	    data: { p: p },
+        data: { page: 1 },
 	    dataType: 'json',
 	    success: function(response){
-
-
 	        console.log('Respuesta alumnos (lista):', response);
 
 	        if (response && response.error) {
@@ -31,10 +24,20 @@ function dataTable(){
 	            return;
 	        }
 
+	        if (!Array.isArray(response)) {
+	            console.error('Respuesta no es un array:', response);
+	            return;
+	        }
+
 	        var o = response;
+	        console.log('Registros a mostrar:', o.length);
+	        
 	        $('#lista_eventos').DataTable({
 	            retrieve: true,
 	            data : o,
+	            serverSide: false,
+	            paging: true,
+	            pageLength: 25,
 	            columns: [
 	                {"data" : "alumno"}, 
 	                {"data" : "indice"},
@@ -42,9 +45,13 @@ function dataTable(){
 	                {"data" : "email"},
 	                {"data" : "evento"},
 	                {"data" : "cupo"},
-	                {"data" : "btn"}
+	                {"data" : "btn", "orderable": false, "searchable": false}
 	            ]
 	        }); 
+	    },
+	    error: function(xhr, status, error){
+	        console.error('Error AJAX dataTable:', status, error);
+	        console.error('Respuesta servidor:', xhr.responseText);
 	    }
     })  
 }

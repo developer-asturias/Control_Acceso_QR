@@ -1,7 +1,15 @@
 <?php
 // Habilitar reporte de errores
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+
+// Capturar errores fatales
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    error_log("[ERROR] $errstr en $errfile:$errline");
+    http_response_code(500);
+    echo json_encode(['error' => 'Error interno: ' . $errstr], JSON_UNESCAPED_UNICODE);
+    exit;
+});
 
 // Establecer el tipo de contenido como JSON
 header('Content-Type: application/json; charset=utf-8');
@@ -10,7 +18,18 @@ header('Content-Type: application/json; charset=utf-8');
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
+if (!file_exists('../config/database.php')) {
+    http_response_code(500);
+    echo json_encode(['error' => 'No se encuentra config/database.php']);
+    exit;
+}
 include('../config/database.php');
+
+if (!isset($mysqli) || !$mysqli) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Error de conexión a base de datos']);
+    exit;
+}
 // include('enviar_email.php');
 // include('phpqrcode/qrlib.php');
 
@@ -59,27 +78,40 @@ if ($metodo == 'GET') {
             ]);
         }
 
-        // Lista de alumnos para eventos activos
-        $query = mysqli_query($mysqli, "SELECT * FROM alumnos a, eventos e WHERE a.id_evento=e.id_evento AND e.estado_evento=1");
+        // Lista de alumnos para eventos activos (con paginación)
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $limit = 50; // 50 registros por página
+        $offset = ($page - 1) * $limit;
+        
+        $sql = "SELECT a.*, e.evento FROM alumnos a LEFT JOIN eventos e ON a.id_evento=e.id_evento ORDER BY a.id_alumno DESC LIMIT $limit OFFSET $offset";
+        error_log("[" . date('Y-m-d H:i:s') . "] Ejecutando SQL: $sql\n", 3, 'alumnos_log.txt');
+        
+        $query = mysqli_query($mysqli, $sql);
         if (!$query) {
             throw new Exception('Error en la consulta: ' . mysqli_error($mysqli));
         }
 
         $json = [];
+        $num_rows = mysqli_num_rows($query);
+        error_log("[" . date('Y-m-d H:i:s') . "] Alumnos encontrados en página $page: $num_rows\n", 3, 'alumnos_log.txt');
+        
+        $count = 0;
         while ($row = mysqli_fetch_assoc($query)) {
             $btn = "<a href='#' onclick='buscar({$row['id_alumno']})' class='btn btn-success btn-sm' title='Detalles'><i class='fas fa-edit'></i></a>";
             $json[] = [
-                'alumno' => $row['alumno'],
-                'codigo' => $row['identificacion'],
-                'titulo' => $row['titulo'],
-                'indice' => $row['indice'],
-                'email' => $row['email'],
-                'evento' => $row['evento'],
-                'cupo' => $row['cupo'],
+                'alumno' => $row['alumno'] ?? '',
+                'codigo' => $row['identificacion'] ?? '',
+                'titulo' => $row['titulo'] ?? '',
+                'indice' => $row['indice'] ?? '',
+                'email' => $row['email'] ?? '',
+                'evento' => $row['evento'] ?? 'Sin evento',
+                'cupo' => $row['cupo'] ?? 0,
                 'btn' => $btn,
             ];
+            $count++;
         }
 
+        error_log("[" . date('Y-m-d H:i:s') . "] Registros procesados: $count, JSON size: " . strlen(json_encode($json)) . " bytes\n", 3, 'alumnos_log.txt');
         sendJsonResponse($json);
     } catch (Exception $e) {
         error_log("[" . date('Y-m-d H:i:s') . "] alumnos.php ERROR GET: " . $e->getMessage() . "\n", 3, 'alumnos_log.txt');

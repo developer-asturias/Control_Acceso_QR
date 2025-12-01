@@ -1,7 +1,15 @@
 <?php
 // Habilitar reporte de errores
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+
+// Capturar errores fatales
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    error_log("[ERROR] $errstr en $errfile:$errline");
+    http_response_code(500);
+    echo json_encode(['error' => 'Error interno: ' . $errstr], JSON_UNESCAPED_UNICODE);
+    exit;
+});
 
 // Establecer el tipo de contenido como JSON
 header('Content-Type: application/json; charset=utf-8');
@@ -11,7 +19,18 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 // Incluir la conexión a la base de datos
+if (!file_exists('../config/database.php')) {
+    http_response_code(500);
+    echo json_encode(['error' => 'No se encuentra config/database.php']);
+    exit;
+}
 include('../config/database.php');
+
+if (!isset($mysqli) || !$mysqli) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Error de conexión a base de datos']);
+    exit;
+}
 
 // Función para enviar respuestas JSON estandarizadas
 function sendJsonResponse($data, $statusCode = 200) {
@@ -24,9 +43,6 @@ function sendJsonResponse($data, $statusCode = 200) {
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo == 'GET') {
-    // Inicializar el log
-    // $log_message = "[" . date('Y-m-d H:i:s') . "] Nueva solicitud GET - Parámetros: " . json_encode($_GET) . "\n";
-    // error_log($log_message, 3, 'eventos_log.txt');
 
     try {
         if (isset($_GET['detalle'])) {
@@ -110,22 +126,27 @@ if ($metodo == 'GET') {
         }
         elseif (isset($_GET['list'])) {
             // Lista simple de eventos activos
-            $query = mysqli_query($mysqli, "SELECT * FROM eventos WHERE estado_evento=1 ORDER BY fecha, hora");
+            $query = mysqli_query($mysqli, "SELECT id_evento, evento, lugar, fecha, hora FROM eventos WHERE estado_evento=1 ORDER BY fecha DESC, hora DESC");
             
             if (!$query) {
                 throw new Exception('Error en la consulta de lista: ' . mysqli_error($mysqli));
             }
 
             $json = array();
+            $num_rows = mysqli_num_rows($query);
+            error_log("[" . date('Y-m-d H:i:s') . "] Eventos encontrados: $num_rows\n", 3, 'eventos_log.txt');
+            
             while ($row = mysqli_fetch_assoc($query)) {
                 $json[] = array(
-                    'evento' => htmlspecialchars($row['evento'], ENT_QUOTES, 'UTF-8'),
-                    'lugar' => htmlspecialchars($row['lugar'], ENT_QUOTES, 'UTF-8'),
-                    'fecha' => $row['fecha'],
-                    'id' => intval($row['id_evento'])
+                    'id' => intval($row['id_evento']),
+                    'evento' => $row['evento'] ?? '',
+                    'lugar' => $row['lugar'] ?? '',
+                    'fecha' => $row['fecha'] ?? '',
+                    'hora' => $row['hora'] ?? ''
                 );
             }
             
+            error_log("[" . date('Y-m-d H:i:s') . "] Respuesta eventos JSON: " . json_encode($json) . "\n", 3, 'eventos_log.txt');
             sendJsonResponse($json);
         }
         elseif (isset($_GET['contador'])) {

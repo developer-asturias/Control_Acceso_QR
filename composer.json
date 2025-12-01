@@ -1,0 +1,17 @@
+{
+    "name": "user/control_acceso_qr",
+    "autoload": {
+        "psr-4": {
+            "User\\ControlAccesoQr\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "developer-asturias",
+            "email": "developer@asturias.edu.co"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.3"
+    }
+}

@@ -76,7 +76,6 @@ while ($row = mysqli_fetch_array($query)) {
 
 
 
-
     // envio de correo
     
     $mail->isSMTP();
@@ -84,11 +83,11 @@ while ($row = mysqli_fetch_array($query)) {
     $mail->SMTPSecure = 'tls';
     $mail->Host = "smtp-mail.outlook.com";
     $mail->Port = 587;
-    $mail->Username = "no-reply@controlacceso.redsummacloud.com"; // "accesoasturias@gmail.com";
-    $mail->Password = "XkkFXqr!ENJ,LRa#";
+    $mail->Username = "gradosasturias@asturias.edu.co"; // "accesoasturias@gmail.com";
+    $mail->Password = "GradoAsturias*+"; //"uycexpxbvcaoxlvb";
     $mail->SMTPDebug = 2; // Habilita la salida de depuración detallada
     
-    $mail->setFrom("no-reply@controlacceso.redsummacloud.com", "Ceremonia de Graduación Asturias");
+    $mail->setFrom("gradosasturias@asturias.edu.co", "Ceremonia de Graduación Asturias");
     $mail->AddReplyTo('servicioalestudiante@asturias.edu.co','Ceremonia de Graduación Asturias');
     
     $mail->addAddress($email,$nombre);
