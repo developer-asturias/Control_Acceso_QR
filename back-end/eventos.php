@@ -39,6 +39,9 @@ function sendJsonResponse($data, $statusCode = 200) {
     exit;
 }
 
+
+
+
 // Obtener el método de la petición
 $metodo = $_SERVER['REQUEST_METHOD'];
 
