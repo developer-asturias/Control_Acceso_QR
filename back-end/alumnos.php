@@ -5,9 +5,9 @@ ini_set('display_errors', 0);
 
 // Capturar errores fatales
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
-    error_log("[ERROR] $errstr en $errfile:$errline");
+    error_log("ERROR: $errstr en $errfile:$errline");
     http_response_code(500);
-    echo json_encode(['error' => 'Error interno: ' . $errstr], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['error' => 'Error interno del servidor'], JSON_UNESCAPED_UNICODE);
     exit;
 });
 
@@ -44,10 +44,6 @@ function sendJsonResponse($data, $statusCode = 200) {
 }
 
 $metodo = $_SERVER['REQUEST_METHOD'];
-
-// Log básico
-$log_message = "[" . date('Y-m-d H:i:s') . "] alumnos.php - Metodo: $metodo - Params: " . json_encode($_REQUEST) . "\n";
-error_log($log_message, 3, 'alumnos_log.txt');
  
 if ($metodo == 'GET') {
     try {
@@ -84,7 +80,6 @@ if ($metodo == 'GET') {
         $offset = ($page - 1) * $limit;
         
         $sql = "SELECT a.*, e.evento FROM alumnos a LEFT JOIN eventos e ON a.id_evento=e.id_evento ORDER BY a.id_alumno DESC LIMIT $limit OFFSET $offset";
-        error_log("[" . date('Y-m-d H:i:s') . "] Ejecutando SQL: $sql\n", 3, 'alumnos_log.txt');
         
         $query = mysqli_query($mysqli, $sql);
         if (!$query) {
@@ -92,10 +87,6 @@ if ($metodo == 'GET') {
         }
 
         $json = [];
-        $num_rows = mysqli_num_rows($query);
-        error_log("[" . date('Y-m-d H:i:s') . "] Alumnos encontrados en página $page: $num_rows\n", 3, 'alumnos_log.txt');
-        
-        $count = 0;
         while ($row = mysqli_fetch_assoc($query)) {
             $btn = "<a href='#' onclick='buscar({$row['id_alumno']})' class='btn btn-success btn-sm' title='Detalles'><i class='fas fa-edit'></i></a>";
             $json[] = [
@@ -108,13 +99,11 @@ if ($metodo == 'GET') {
                 'cupo' => $row['cupo'] ?? 0,
                 'btn' => $btn,
             ];
-            $count++;
         }
 
-        error_log("[" . date('Y-m-d H:i:s') . "] Registros procesados: $count, JSON size: " . strlen(json_encode($json)) . " bytes\n", 3, 'alumnos_log.txt');
         sendJsonResponse($json);
     } catch (Exception $e) {
-        error_log("[" . date('Y-m-d H:i:s') . "] alumnos.php ERROR GET: " . $e->getMessage() . "\n", 3, 'alumnos_log.txt');
+        error_log("ERROR alumnos.php GET: " . $e->getMessage());
         sendJsonResponse(['error' => 'Error interno del servidor: ' . $e->getMessage()], 500);
     }
 }
@@ -199,7 +188,7 @@ if ($metodo == 'POST') {
         // Si no coincide ninguna acción
         sendJsonResponse(['error' => 'Acción no válida'], 400);
     } catch (Exception $e) {
-        error_log("[" . date('Y-m-d H:i:s') . "] alumnos.php ERROR POST: " . $e->getMessage() . "\n", 3, 'alumnos_log.txt');
+        error_log("ERROR alumnos.php POST: " . $e->getMessage());
         sendJsonResponse(['error' => 'Error interno del servidor: ' . $e->getMessage()], 500);
     }
 }
