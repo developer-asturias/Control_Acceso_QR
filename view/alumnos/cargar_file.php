@@ -31,17 +31,26 @@ $mostrar_tabla = false;
 $error_msg = null;
 
 if(isset($_POST['submit'])){
-    error_log('cargar_file.php: Inicio procesamiento submit');
-    
     try {
         $dir_subida = 'Archivos/';
+        
+        // Crear directorio si no existe
+        if (!is_dir($dir_subida)) {
+            if (!@mkdir($dir_subida, 0777, true)) {
+                throw new Exception('No se puede crear el directorio Archivos/. Verifica los permisos del servidor.');
+            }
+        }
+        
+        // Verificar permisos de escritura
+        if (!is_writable($dir_subida)) {
+            throw new Exception('El directorio Archivos/ no tiene permisos de escritura. Contacta al administrador del servidor.');
+        }
+        
         $fichero_subido = $dir_subida . basename($_FILES['fichero_usuario']['name']);
-        error_log('cargar_file.php: Archivo recibido - nombre=' . (isset($_FILES['fichero_usuario']['name']) ? $_FILES['fichero_usuario']['name'] : 'NO DEFINIDO'));
         
         if (!move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido)) {
-            throw new Exception('Error al mover el archivo subido.');
+            throw new Exception('Error al mover el archivo subido. Verifica los permisos de la carpeta Archivos/.');
         }
-        error_log('cargar_file.php: Archivo movido correctamente a ' . $fichero_subido);
         
         $archivo = $fichero_subido;
         error_log('cargar_file.php: Ruta de archivo Excel=' . $archivo);
@@ -186,8 +195,23 @@ if(isset($_POST['submit'])){
                                     error_log('cargar_file.php: INSERT alumnos OK fila ' . $row . ' codigo=' . $codigo . ' indice=' . $indice);
                                 }
                                 $codesDir = "Archivos/";
+                                
+                                // Crear directorio si no existe
+                                if (!is_dir($codesDir)) {
+                                    @mkdir($codesDir, 0777, true);
+                                }
+                                
                                 $codeFile = $indice . '.png';
-                                QRcode::png($indice, $codesDir . $codeFile, 'L', 10);
+                                $qrPath = $codesDir . $codeFile;
+                                
+                                // Generar QR solo si el directorio es escribible
+                                if (is_writable($codesDir)) {
+                                    try {
+                                        QRcode::png($indice, $qrPath, 'L', 10);
+                                    } catch (Exception $qr_error) {
+                                        error_log("Error generando QR: " . $qr_error->getMessage());
+                                    }
+                                }
                                 ?>
                                 <tr>
                                     <td><?php echo $num; ?></td>

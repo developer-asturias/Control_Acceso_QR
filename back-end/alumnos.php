@@ -132,10 +132,20 @@ if ($metodo == 'POST') {
 
             $codesDir = "../Archivos/";
             if (!is_dir($codesDir)) {
-                @mkdir($codesDir, 0755, true);
+                @mkdir($codesDir, 0777, true);
             }
+            
             $codeFile = $indice . '.png';
-            QRcode::png($indice, $codesDir . $codeFile, 'L', 10);
+            $qrPath = $codesDir . $codeFile;
+            
+            // Generar QR solo si el directorio es escribible
+            if (is_writable($codesDir)) {
+                try {
+                    QRcode::png($indice, $qrPath, 'L', 10);
+                } catch (Exception $qr_error) {
+                    error_log("Error generando QR: " . $qr_error->getMessage());
+                }
+            }
 
             sendJsonResponse([
                 'success' => true,
