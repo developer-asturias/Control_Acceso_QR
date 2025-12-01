@@ -5,9 +5,9 @@ ini_set('display_errors', 0);
 
 // Capturar errores fatales
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
-    error_log("[ERROR] $errstr en $errfile:$errline");
+    error_log("ERROR: $errstr en $errfile:$errline");
     http_response_code(500);
-    echo json_encode(['error' => 'Error interno: ' . $errstr], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['error' => 'Error interno del servidor'], JSON_UNESCAPED_UNICODE);
     exit;
 });
 
@@ -134,7 +134,6 @@ if ($metodo == 'GET') {
 
             $json = array();
             $num_rows = mysqli_num_rows($query);
-            error_log("[" . date('Y-m-d H:i:s') . "] Eventos encontrados: $num_rows\n", 3, 'eventos_log.txt');
             
             while ($row = mysqli_fetch_assoc($query)) {
                 $json[] = array(
@@ -146,7 +145,6 @@ if ($metodo == 'GET') {
                 );
             }
             
-            error_log("[" . date('Y-m-d H:i:s') . "] Respuesta eventos JSON: " . json_encode($json) . "\n", 3, 'eventos_log.txt');
             sendJsonResponse($json);
         }
         elseif (isset($_GET['contador'])) {
@@ -193,7 +191,7 @@ if ($metodo == 'GET') {
         }
     } 
     catch (Exception $e) {
-        // error_log("[" . date('Y-m-d H:i:s') . "] ERROR: " . $e->getMessage() . "\n", 3, 'eventos_log.txt');
+        error_log("ERROR eventos.php GET: " . $e->getMessage());
         sendJsonResponse(['error' => 'Error interno del servidor: ' . $e->getMessage()], 500);
     }
 }
@@ -272,7 +270,7 @@ elseif ($metodo == 'POST') {
         }
     } 
     catch (Exception $e) {
-        error_log("[" . date('Y-m-d H:i:s') . "] ERROR: " . $e->getMessage() . "\n", 3, 'eventos_log.txt');
+        error_log("ERROR eventos.php POST: " . $e->getMessage());
         sendJsonResponse(['error' => 'Error interno del servidor: ' . $e->getMessage()], 500);
     }
 }
