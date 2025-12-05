@@ -32,38 +32,49 @@ function asistencia(){
     	const postData = {indice_a: indice, evento: evento};
             
         $.post('back-end/inicio.php', postData, function(response){
-        	//console.log(response);
+        	console.log('Respuesta:', response);
             $('#qrcode').val('');
             document.getElementById("qrcode").focus();
-            let text = response;
-            console.log(text.substring(0,1) + ' -> ');
-            console.log(text.substring(2) + ' -> ');
-            let numero_v = text.substring(0,1);
-            let nombre_est = text.substring(1);
             
-            
-            if(numero_v == 1){
+            try {
+                let data = typeof response === 'string' ? JSON.parse(response) : response;
+                
+                if(data.code == 1){
+                    template +=`
+                <div class="alert alert-success" role="alert" id="alerta_add">
+                    <strong>Exito!</strong> Asistencia Confirmada ${data.nombre}
+                </div>`;
+                }
+                else if(data.code == 0){
+                    template +=`
+                <div class="alert alert-danger" role="alert" id="alerta_add">
+                    <strong>Aviso!</strong> Ya cuenta con registro de asistencia. ${data.nombre}
+                </div>`;
+                }
+                else if(data.code == 2){
+                    template +=`
+                <div class="alert alert-danger" role="alert" id="alerta_add">
+                    <strong>Error!</strong> Indice no relacionado al evento o no existe.
+                </div>`;
+                }
+                else if(data.error){
+                    template +=`
+                <div class="alert alert-danger" role="alert" id="alerta_add">
+                    <strong>Error!</strong> ${data.error}
+                </div>`;
+                }
+                
+            } catch(e) {
+                console.error('Error al procesar respuesta:', e);
                 template +=`
-            <div class="alert alert-success" role="alert" id="alerta_add">
-                <strong>Exito!</strong> Asistencia Confirmada ${nombre_est}
-            </div>`;
-            }
-            if(numero_v == 0){
-                template +=`
-            <div class="alert alert-danger" role="alert" id="alerta_add">
-                <strong>Aviso!</strong> Ya cuenta con registro de asistencia. ${nombre_est}
-            </div>`;
-            }
-            if(numero_v == 2){
-                template +=`
-            <div class="alert alert-danger" role="alert" id="alerta_add">
-                <strong>Error!</strong> Indice no relacionado al evento o no existe.
-            </div>`;
+                <div class="alert alert-danger" role="alert" id="alerta_add">
+                    <strong>Error!</strong> Error al procesar la respuesta del servidor
+                </div>`;
             }
             
         $('#result').html(template);
         setTimeout(function(){ $('#alerta_add').alert('close'); }, 5000);
-        });
+        }, 'json');
 	}
 }
 
@@ -77,15 +88,15 @@ function consulta(id, evento){
 	$.ajax({
         url: 'back-end/inicio.php',
         type: 'GET',
-        data: {indice,id_evento},
-        success: function(response){
-            let o = JSON.parse(response);
-            console.log(o)
-            $('#nombre').val(o.alumno);
-            $('#indice').val(o.indice);
-            $('#titulo').val(o.titulo);
-        	$('#resultado').html(o.resultado);
-        	let btn = o.btn;
+        data: {indice, id_evento},
+        dataType: 'json',
+        success: function(o){
+            console.log('Consulta exitosa:', o);
+            $('#nombre').val(o.alumno || '');
+            $('#indice').val(o.indice || '');
+            $('#titulo').val(o.titulo || '');
+        	$('#resultado').html(o.resultado || '');
+        	let btn = o.btn || 0;
         	if (btn === 0) {
         		document.getElementById('boton').style.display = 'none';
         		document.getElementById('botonc').style.display = 'block';
@@ -93,7 +104,10 @@ function consulta(id, evento){
         		document.getElementById('boton').style.display = 'block';
         		document.getElementById('botonc').style.display = 'none';
         	}
-
+        },
+        error: function(xhr, status, error){
+            console.error('Error en consulta:', error);
+            console.error('Response:', xhr.responseText);
         }
     })
 }
@@ -103,12 +117,12 @@ function registrar(){
 	const postData = {indice: ind};
         
     $.post('back-end/inicio.php', postData, function(response){
-    	console.log(response);
+    	console.log('Respuesta registrar:', response);
         $("#confirma_ingreso").modal("hide");
         $('#form_confirma').trigger('reset');
         $('#qrcode').val('');
         document.getElementById("qrcode").focus();
-    });
+    }, 'json');
 }
 
 function cerrar(){
