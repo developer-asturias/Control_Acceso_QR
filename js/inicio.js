@@ -77,22 +77,15 @@ function consulta(id, evento){
 	$.ajax({
         url: 'back-end/inicio.php',
         type: 'GET',
-        data: {indice, id_evento},
-        dataType: 'json',
+        data: {indice,id_evento},
         success: function(response){
-            console.log('Respuesta consulta:', response);
-            
-            if (response.error) {
-                console.error('Error:', response.error);
-                return;
-            }
-            
-            $('#nombre').val(response.alumno);
-            $('#indice').val(response.indice);
-            $('#titulo').val(response.titulo);
-        	$('#resultado').html(response.resultado);
-        	
-        	let btn = response.btn;
+            let o = JSON.parse(response);
+            console.log(o)
+            $('#nombre').val(o.alumno);
+            $('#indice').val(o.indice);
+            $('#titulo').val(o.titulo);
+        	$('#resultado').html(o.resultado);
+        	let btn = o.btn;
         	if (btn === 0) {
         		document.getElementById('boton').style.display = 'none';
         		document.getElementById('botonc').style.display = 'block';
@@ -100,10 +93,7 @@ function consulta(id, evento){
         		document.getElementById('boton').style.display = 'block';
         		document.getElementById('botonc').style.display = 'none';
         	}
-        },
-        error: function(xhr, status, error){
-            console.error('Error AJAX consulta:', status, error);
-            console.error('Respuesta servidor:', xhr.responseText);
+
         }
     })
 }
@@ -113,21 +103,7 @@ function registrar(){
 	const postData = {indice: ind};
         
     $.post('back-end/inicio.php', postData, function(response){
-    	console.log('Respuesta registrar:', response);
-        
-        try {
-            let result = JSON.parse(response);
-            if (result.success) {
-                let template = `<div class="alert alert-success" role="alert" id="alerta_add">
-                    <strong>Éxito!</strong> ${result.message}
-                </div>`;
-                $('#result').html(template);
-                setTimeout(function(){ $('#alerta_add').alert('close'); }, 3000);
-            }
-        } catch(e) {
-            console.error('Error al parsear respuesta:', e);
-        }
-        
+    	console.log(response);
         $("#confirma_ingreso").modal("hide");
         $('#form_confirma').trigger('reset');
         $('#qrcode').val('');
@@ -148,28 +124,19 @@ function list_eventos(){
         type: 'GET',
         data: {list: 1},
         dataType: 'json',
-        success: function(response){
-            console.log('Respuesta eventos:', response);
-            
-            if (response && response.error) {
-                console.error('Error eventos:', response.error);
-                return;
-            }
-
-            if (!Array.isArray(response)) {
-                console.error('Respuesta no es un array:', response);
-                return;
-            }
-
+        success: function(datas){
+            console.log('Eventos cargados:', datas);
             let template = '<option value="">Seleccione Evento......</option>';
-            response.forEach(data => {
-                template += `<option value="${data.id}">${data.evento}</option>`;
+            datas.forEach(data =>{
+                template +=`
+                <option value="${data.id}">${data.evento}</option>
+                `
             });
             $('#evento').html(template);
         },
         error: function(xhr, status, error){
-            console.error('Error AJAX list_eventos:', status, error);
-            console.error('Respuesta servidor:', xhr.responseText);
+            console.error('Error al cargar eventos:', error);
+            console.error('Response:', xhr.responseText);
         }
     })
 }

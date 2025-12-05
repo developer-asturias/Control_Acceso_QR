@@ -13,4 +13,3 @@ if ($mysqli->connect_error) {
     die('error'.$mysqli->connect_error);
 }
 $mysqli->query("SET lc_time_names = 'es_ES'");
-?>
